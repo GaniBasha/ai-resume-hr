@@ -1,0 +1,3 @@
+flask
+python-dotenv
+# Step 3/4 we’ll add: scikit-learn, numpy, pandas, sentence-transformers, etc.
