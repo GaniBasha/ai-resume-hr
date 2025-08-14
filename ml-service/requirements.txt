@@ -1,3 +1,6 @@
-flask
+Flask
+flask-cors
 python-dotenv
-# Step 3/4 we’ll add: scikit-learn, numpy, pandas, sentence-transformers, etc.
+PyMuPDF
+python-docx
+gunicorn
