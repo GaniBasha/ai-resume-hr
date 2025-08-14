@@ -18,7 +18,7 @@ function App() {
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const ML_URL = import.meta.env.VITE_ML_URL || "http://localhost:8000";
 
-  // Check API health
+  // Check API & ML health
   useEffect(() => {
     fetch(`${API_URL}/api/health`)
       .then((r) => r.json())
@@ -41,7 +41,7 @@ function App() {
       .catch((err) => console.error("Error loading resumes:", err));
   };
 
-  // Polling for newest resume AI score
+  // Poll for AI score of newest resume
   useEffect(() => {
     if (!newestId) return;
 
