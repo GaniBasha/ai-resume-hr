@@ -15,8 +15,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [newestId, setNewestId] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-  const ML_URL = import.meta.env.VITE_ML_URL || "http://localhost:8000";
+  const API_URL = import.meta.env.VITE_API_URL;
+  const ML_URL = import.meta.env.VITE_ML_URL;
 
   // Check API & ML health
   useEffect(() => {
@@ -41,7 +41,7 @@ function App() {
       .catch((err) => console.error("Error loading resumes:", err));
   };
 
-  // Poll for AI score of newest resume
+  // Poll for AI score
   useEffect(() => {
     if (!newestId) return;
 
