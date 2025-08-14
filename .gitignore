@@ -1,0 +1,16 @@
+# Node
+node_modules
+npm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+
+# Vite build
+client/dist
+
+# Env
+*.env
+
+# Python
+ml-service/venv
+__pycache__/
+*.pyc
