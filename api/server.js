@@ -9,7 +9,15 @@ const FormData = require('form-data');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// ✅ Allow CORS for GitHub Pages & ML service
+app.use(cors({
+  origin: [
+    "https://ganibasha.github.io", // Your GitHub Pages frontend
+    process.env.ML_SERVICE_URL     // Your ML service URL
+  ]
+}));
+
 app.use(express.json({ limit: '10mb' }));
 
 // MongoDB Connection
