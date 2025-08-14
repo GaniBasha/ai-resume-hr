@@ -13,8 +13,8 @@ const app = express();
 // ✅ Allow CORS for GitHub Pages & ML service
 app.use(cors({
   origin: [
-    "https://ganibasha.github.io", // Your GitHub Pages frontend
-    process.env.ML_SERVICE_URL     // Your ML service URL
+    "https://ganibasha.github.io", // Frontend (GitHub Pages)
+    process.env.ML_SERVICE_URL     // ML service
   ]
 }));
 

@@ -11,10 +11,10 @@ PORT = int(os.getenv("PORT", 8000))
 
 app = Flask(__name__)
 
-# ✅ Enable CORS for GitHub Pages & API domain
+# ✅ Enable CORS for GitHub Pages & API
 CORS(app, resources={r"/*": {"origins": [
     "https://ganibasha.github.io",
-    "https://ai-resume-hr.onrender.com"  # API URL if needed
+    "https://ai-resume-hr.onrender.com"
 ]}})
 
 # Health check
