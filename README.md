@@ -16,7 +16,7 @@ An AI-powered resume screening platform that allows HR professionals to upload c
 ---
 
 ## 🚀 Live Demo
-Frontend: [https://ganibasha.github.io/ai-resume-hr/](https://ganibasha.github.io/ai-resume-hr/)  
+Frontend: [https://ganibasha.github.io/ai-resume-hr/]
 Backend API: `https://ai-resume-hr.onrender.com`  
 ML Service: `https://ai-resume-hr-1.onrender.com`
 
