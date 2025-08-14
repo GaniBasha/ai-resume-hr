@@ -6,26 +6,23 @@ const multer = require('multer');
 const fs = require('fs');
 const axios = require('axios');
 const FormData = require('form-data');
-const path = require('path'); // ✅ added
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB connected"))
-.catch(err => console.error("❌ MongoDB connection error:", err));
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'api', time: new Date().toISOString() });
 });
 
-// Resume schema
+// Resume Schema
 const resumeSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -35,17 +32,17 @@ const resumeSchema = new mongoose.Schema({
 });
 const Resume = mongoose.model('Resume', resumeSchema);
 
-// ✅ Updated multer config to keep extension
+// Multer Storage (keep original extension)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname); // get original extension (.pdf, .docx, etc.)
-    cb(null, Date.now() + ext); // rename with timestamp + extension
+    const ext = path.extname(file.originalname);
+    cb(null, Date.now() + ext);
   }
 });
 const upload = multer({ storage });
 
-// Upload + AI scoring endpoint
+// Upload Resume + AI Scoring
 app.post('/api/resumes', upload.single('resume'), async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -57,7 +54,6 @@ app.post('/api/resumes', upload.single('resume'), async (req, res) => {
 
     let aiScore = null;
 
-    // Send to ML service
     try {
       const formData = new FormData();
       formData.append("resume", fs.createReadStream(req.file.path));
@@ -65,7 +61,7 @@ app.post('/api/resumes', upload.single('resume'), async (req, res) => {
       console.log(`📤 Sending file to ML service: ${req.file.path}`);
 
       const mlRes = await axios.post(
-        `${process.env.ML_SERVICE_URL || "http://localhost:8000"}/score`,
+        `${process.env.ML_SERVICE_URL}/score`,
         formData,
         { headers: formData.getHeaders() }
       );
@@ -76,7 +72,7 @@ app.post('/api/resumes', upload.single('resume'), async (req, res) => {
       console.error("⚠️ ML service error:", mlErr.message);
     }
 
-    // Save in MongoDB
+    // Save to MongoDB
     const resume = new Resume({
       name,
       email,
@@ -102,6 +98,7 @@ app.get('/api/resumes', async (req, res) => {
   }
 });
 
+// Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 API listening on http://localhost:${PORT}`);
